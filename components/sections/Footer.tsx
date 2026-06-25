@@ -27,7 +27,7 @@ export function Footer() {
             <img
               src="/favicon.png"
               alt="Healthy Pharmacy"
-              className="h-10 w-10 rounded-2xl border border-slate-200 bg-white object-cover"
+              className="h-7 w-7 object-contain"
             />
             <span className="font-semibold text-slate-950">Healthy Pharmacy</span>
           </div>

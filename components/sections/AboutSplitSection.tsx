@@ -11,11 +11,13 @@ export function AboutSplitSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="overflow-hidden rounded-[2rem] border border-slate-200/70 bg-gradient-to-br from-[#eef6ed] via-white to-slate-50 shadow-soft-lg"
+          className="overflow-hidden rounded-[2rem] border border-slate-200/70 shadow-soft-lg"
         >
-          <div className="flex aspect-square items-center justify-center text-sm font-medium uppercase tracking-[0.2em] text-slate-400">
-            Image placeholder
-          </div>
+          <img
+            src="/pharmacy-aisle.jpg"
+            alt="Healthy Pharmacy store aisle stocked with vitamins and supplements"
+            className="aspect-square w-full object-cover"
+          />
         </motion.div>
 
         <motion.div
