@@ -60,13 +60,38 @@ export function TransferFormSection() {
     }
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (!value) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    } else if (!/^\d+$/.test(value)) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: 'Phone numbers can only contain numbers. Please check your input.',
+      }));
+    } else if (value.length > 10) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: 'Phone number must be 10 digits. Please check your input.',
+      }));
+    } else {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
   const validateStep = (): boolean => {
     const newErrors: Partial<FormData> = {};
 
     if (step === 0) {
       if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
       if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-      if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+      if (!formData.phone.trim()) {
+        newErrors.phone = 'Phone number is required';
+      } else if (!/^\d{10}$/.test(formData.phone)) {
+        newErrors.phone = 'Phone number must be 10 digits. Please check your input.';
+      }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
         newErrors.email = 'Please enter a valid email';
       }
@@ -76,6 +101,9 @@ export function TransferFormSection() {
       if (!formData.currentPharmacy.trim())
         newErrors.currentPharmacy = 'Current pharmacy is required';
       if (!formData.contactMethod) newErrors.contactMethod = 'Contact method is required';
+      if (formData.currentPharmacyPhone && !/^\d{10}$/.test(formData.currentPharmacyPhone)) {
+        newErrors.currentPharmacyPhone = 'Phone number must be 10 digits. Please check your input.';
+      }
     }
 
     if (step === 2) {
@@ -231,9 +259,10 @@ export function TransferFormSection() {
                               label="Phone Number"
                               name="phone"
                               type="tel"
+                              inputMode="numeric"
                               placeholder="(555) 123-4567"
                               value={formData.phone}
-                              onChange={handleChange}
+                              onChange={handlePhoneChange}
                               error={errors.phone}
                             />
                             <Input
@@ -263,9 +292,11 @@ export function TransferFormSection() {
                             label="Current Pharmacy Phone (optional)"
                             name="currentPharmacyPhone"
                             type="tel"
-                            placeholder="(555) 987-6543"
+                            inputMode="numeric"
+                            placeholder="(555)987-6543"
                             value={formData.currentPharmacyPhone}
-                            onChange={handleChange}
+                            onChange={handlePhoneChange}
+                            error={errors.currentPharmacyPhone}
                           />
                           <Select
                             label="Preferred Contact Method"
